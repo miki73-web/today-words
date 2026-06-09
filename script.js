@@ -27,9 +27,6 @@ function drawCard() {
   // フリップ済みならリセット
   cardInner.classList.remove('flipped');
   cardInner.closest('.card').classList.remove('popin');
-  deck.style.width  = '';
-  deck.style.height = '';
-
   // 少し待ってからシャッフル開始
   setTimeout(() => {
     deck.classList.add('shuffling');
@@ -40,17 +37,8 @@ function drawCard() {
 
       // ランダムに画像を選ぶ
       const picked = images[Math.floor(Math.random() * images.length)];
-      img.alt = '今日のひとこと';
-      img.onload = () => {
-        // 画像の縦横比に合わせてカードサイズを調整
-        const maxW = Math.min(window.innerWidth * 0.85, 600);
-        const ratio = img.naturalHeight / img.naturalWidth;
-        const w = maxW;
-        const h = Math.round(maxW * ratio);
-        deck.style.width  = w + 'px';
-        deck.style.height = h + 'px';
-      };
       img.src = 'images/' + picked;
+      img.alt = '今日のひとこと';
 
       // カードをフリップ
       setTimeout(() => {

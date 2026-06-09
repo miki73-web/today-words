@@ -60,13 +60,13 @@ body {
 /* ===== カードステージ ===== */
 .card-stage {
   width: 100%; display: flex; align-items: center; justify-content: center;
-  min-height: 340px;
 }
 
+/* 1350×1080 = 5:4比率。幅は親に合わせて伸縮、高さは比率で自動計算 */
 .card-deck {
   position: relative;
-  width: 280px; height: 224px;
-  transition: width 0.3s ease, height 0.3s ease;
+  width: min(500px, 90vw);
+  height: calc(min(500px, 90vw) * 1080 / 1350);
 }
 
 /* カード共通 */
@@ -195,6 +195,5 @@ body {
 /* ===== レスポンシブ ===== */
 @media (max-width: 480px) {
   .site-title { font-size: 1.7rem; }
-  .card-deck { width: 220px; height: 176px; }
   .draw-btn { padding: 14px 28px; font-size: 0.95rem; }
 }
