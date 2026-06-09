@@ -62,11 +62,11 @@ body {
   width: 100%; display: flex; align-items: center; justify-content: center;
 }
 
-/* 1350×1080 = 5:4比率。幅は親に合わせて伸縮、高さは比率で自動計算 */
+/* 横1080×縦1350 = 4:5比率。幅は親に合わせて伸縮、高さは比率で自動計算 */
 .card-deck {
   position: relative;
-  width: min(500px, 90vw);
-  height: calc(min(500px, 90vw) * 1080 / 1350);
+  width: min(400px, 90vw);
+  height: calc(min(400px, 90vw) * 1350 / 1080);
 }
 
 /* カード共通 */
