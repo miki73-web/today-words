@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>今日のひとこと</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg-decoration">
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+  </div>
+
+  <main class="container">
+    <header class="site-header">
+      <p class="site-subtitle">毎日ひとつ、心に贈る言葉</p>
+      <h1 class="site-title">今日のひとこと</h1>
+    </header>
+
+    <section class="card-stage" id="cardStage">
+      <div class="card-deck" id="cardDeck">
+        <div class="card c5"><div class="card-back"></div></div>
+        <div class="card c4"><div class="card-back"></div></div>
+        <div class="card c3"><div class="card-back"></div></div>
+        <div class="card c2"><div class="card-back"></div></div>
+        <div class="card c1 front-card" id="frontCard">
+          <div class="card-inner" id="cardInner">
+            <div class="card-back-face"><div class="card-back"></div></div>
+            <div class="card-front-face">
+              <img id="kotoba-img" src="" alt="今日のひとこと">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="btn-wrap">
+      <button class="draw-btn" id="drawBtn" onclick="drawCard()">
+        <span class="btn-icon">🎴</span>
+        <span class="btn-text">今日のひとことを引く</span>
+      </button>
+    </div>
+
+    <div class="result-caption" id="resultCaption"></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

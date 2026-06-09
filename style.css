@@ -1,0 +1,199 @@
+/* ===== リセット・基本 ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red:    #8B1A2A;
+  --rose:   #C0425A;
+  --pink:   #E8789A;
+  --blush:  #F5C0CF;
+  --cream:  #FFF4F6;
+  --white:  #FFFFFF;
+  --shadow: rgba(139,26,42,0.18);
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(145deg, #FFF0F3 0%, #FFE4EA 40%, #FDD8E3 100%);
+  font-family: 'Hiragino Maru Gothic Pro', 'BIZ UDPGothic', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+/* ===== 背景の丸装飾 ===== */
+.bg-decoration {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+}
+.dot {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.12;
+  background: var(--rose);
+}
+.dot:nth-child(1) { width:320px; height:320px; top:-80px; left:-80px; }
+.dot:nth-child(2) { width:200px; height:200px; top:60%; right:-60px; background: var(--pink); }
+.dot:nth-child(3) { width:140px; height:140px; bottom:-40px; left:20%; }
+.dot:nth-child(4) { width:90px;  height:90px;  top:15%; right:18%; background: var(--blush); opacity:.25; }
+.dot:nth-child(5) { width:60px;  height:60px;  bottom:10%; right:30%; }
+.dot:nth-child(6) { width:50px;  height:50px;  top:40%; left:5%; background: var(--pink); opacity:.2; }
+
+/* ===== メインコンテナ ===== */
+.container {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 32px; padding: 40px 20px; width: 100%; max-width: 680px;
+}
+
+/* ===== ヘッダー ===== */
+.site-header { text-align: center; }
+.site-subtitle {
+  font-size: 0.85rem; letter-spacing: 0.15em;
+  color: var(--rose); margin-bottom: 6px;
+}
+.site-title {
+  font-size: 2.2rem; font-weight: 900; letter-spacing: 0.08em;
+  color: var(--red);
+  text-shadow: 0 2px 8px rgba(139,26,42,0.15);
+}
+
+/* ===== カードステージ ===== */
+.card-stage {
+  width: 100%; display: flex; align-items: center; justify-content: center;
+  min-height: 340px;
+}
+
+.card-deck {
+  position: relative;
+  width: 280px; height: 224px; /* 5:4比率（1350:1080縮小版） */
+}
+
+/* カード共通 */
+.card {
+  position: absolute; inset: 0;
+  border-radius: 18px;
+  transition: transform 0.1s ease;
+}
+
+/* デッキの重なり（奥から） */
+.c5 { transform: rotate(-6deg) translate(-6px, 4px);  background: var(--blush); box-shadow: 2px 2px 8px var(--shadow); }
+.c4 { transform: rotate(-3deg) translate(-3px, 2px);  background: #f0b8c8; box-shadow: 2px 2px 8px var(--shadow); }
+.c3 { transform: rotate( 1deg) translate( 1px,-1px); background: var(--pink); box-shadow: 2px 2px 10px var(--shadow); }
+.c2 { transform: rotate( 4deg) translate( 4px,-3px); background: var(--rose); box-shadow: 2px 2px 12px var(--shadow); }
+.c1 { transform: rotate( 0deg); z-index: 10; perspective: 1000px; }
+
+/* カード裏面の模様 */
+.card-back {
+  width: 100%; height: 100%;
+  border-radius: 18px;
+  background:
+    repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,0.12) 8px, rgba(255,255,255,0.12) 16px),
+    linear-gradient(135deg, var(--red) 0%, var(--rose) 60%, var(--pink) 100%);
+  border: 3px solid rgba(255,255,255,0.35);
+  display: flex; align-items: center; justify-content: center;
+}
+.card-back::after {
+  content: '✿';
+  font-size: 2.8rem; color: rgba(255,255,255,0.55);
+}
+
+/* ===== フリップカード ===== */
+.front-card { background: transparent !important; }
+
+.card-inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-inner.flipped { transform: rotateY(180deg); }
+
+.card-back-face,
+.card-front-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  overflow: hidden;
+}
+.card-back-face { z-index: 2; }
+.card-front-face {
+  transform: rotateY(180deg);
+  background: var(--white);
+  box-shadow: 0 8px 32px var(--shadow);
+}
+.card-front-face img {
+  width: 100%; height: 100%;
+  object-fit: cover; border-radius: 18px;
+}
+
+/* ===== シャッフルアニメーション ===== */
+@keyframes shuffleLeft {
+  0%   { transform: rotate(0deg) translate(0,0); }
+  25%  { transform: rotate(-18deg) translate(-80px, -20px); }
+  50%  { transform: rotate(8deg)  translate(-40px,  10px); }
+  75%  { transform: rotate(-10deg) translate(-60px, -10px); }
+  100% { transform: rotate(0deg) translate(0,0); }
+}
+@keyframes shuffleRight {
+  0%   { transform: rotate(0deg)  translate(0,0); }
+  25%  { transform: rotate(14deg) translate(70px, -15px); }
+  50%  { transform: rotate(-6deg) translate(35px,  12px); }
+  75%  { transform: rotate(10deg) translate(55px,  -8px); }
+  100% { transform: rotate(0deg)  translate(0,0); }
+}
+@keyframes shuffleUp {
+  0%   { transform: rotate(0deg) translate(0,0); }
+  30%  { transform: rotate(-5deg) translate(-20px, -50px); }
+  60%  { transform: rotate(5deg)  translate(15px, -30px); }
+  100% { transform: rotate(0deg)  translate(0,0); }
+}
+@keyframes popIn {
+  0%   { transform: scale(0.85) rotate(-3deg); opacity:0.7; }
+  60%  { transform: scale(1.06) rotate(1deg);  opacity:1; }
+  100% { transform: scale(1)    rotate(0deg);  opacity:1; }
+}
+
+.shuffling .c5 { animation: shuffleLeft  0.5s ease-in-out 0s   3; }
+.shuffling .c4 { animation: shuffleRight 0.5s ease-in-out 0.08s 3; }
+.shuffling .c3 { animation: shuffleUp    0.5s ease-in-out 0.04s 3; }
+.shuffling .c2 { animation: shuffleLeft  0.5s ease-in-out 0.12s 3; }
+
+.popin { animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+
+/* ===== ボタン ===== */
+.btn-wrap { display: flex; justify-content: center; }
+
+.draw-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px 40px;
+  background: linear-gradient(135deg, var(--red) 0%, var(--rose) 100%);
+  color: var(--white);
+  border: none; border-radius: 50px;
+  font-size: 1.05rem; font-weight: 700; letter-spacing: 0.1em;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(139,26,42,0.35);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+.draw-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(139,26,42,0.4);
+}
+.draw-btn:active:not(:disabled) { transform: translateY(0); }
+.draw-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-icon { font-size: 1.3rem; }
+
+/* ===== 結果キャプション ===== */
+.result-caption {
+  min-height: 2rem;
+  font-size: 0.9rem; color: var(--rose); letter-spacing: 0.05em;
+  text-align: center; font-weight: 600;
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.result-caption.visible { opacity: 1; }
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 480px) {
+  .site-title { font-size: 1.7rem; }
+  .card-deck { width: 220px; height: 176px; }
+  .draw-btn { padding: 14px 28px; font-size: 0.95rem; }
+}
